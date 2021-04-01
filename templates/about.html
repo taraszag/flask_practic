@@ -1,7 +1,8 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>{{ article['title'] }}</title>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="/static/assets/css/main.css"/>
@@ -18,9 +19,8 @@
 <nav id="menu">
     <ul class="links">
         <li><a href="/">Home</a></li>
-        <li><a href="generic.html">Generic</a></li>
-        <li><a href="/article/1">Elements</a></li>
-        <li><a href="/about">About</a></li>
+        <li><a href="/article/1">Generic</a></li>
+        <li><a href="/elements">Elements</a></li>
     </ul>
 </nav>
 
@@ -28,23 +28,17 @@
 <section id="One" class="wrapper style3">
     <div class="inner">
         <header class="align-center">
-            <p>{{ article ['author']}}</p>
-            <h2>{{ article ['title'] }}</h2>
+            <h2>About Us</h2>
+            <p>It is a long established fact that a reader will be distracted by the readable content of a page when
+                looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution
+                of letters, as opposed to using 'Content here, content here', making it look like readable English. Many
+                desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a
+                search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have
+                evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
         </header>
     </div>
 </section>
 
-<!-- Two -->
-<section id="two" class="wrapper style2">
-    <div class="inner">
-        <div class="box">
-            <div class="content">
-                <p>{{ article['text'] }}</p>
-
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Footer -->
 <footer id="footer">

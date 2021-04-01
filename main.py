@@ -58,6 +58,17 @@ def create_article():
         return 'METHOD BAD'
 
 
+@app.route('/about')
+def about():
+    return render_template('about.html', title='KsuZag')
+
+
+@app.route('/elements')
+def elements():
+    return  render_template('elements.html', title='KsuZag')
+
+
+
 # @app.route('/create/user')
 # def create_user():
 #     if request.method == 'GET':
@@ -71,11 +82,6 @@ def create_article():
 #             user['repit_password'] = request.form['user_rep_pass']
 #             user['avatar'] = request.form['user_avatar']
 #             return redirect('/')
-
-
-@app.route('/about')
-def about():
-    return 'ETC...'
 
 
 if __name__ == '__main__':
