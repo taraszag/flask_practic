@@ -4,16 +4,19 @@ app = Flask(__name__)
 articles = [
     {
         'id': 1,
+        'views_count': 0,
         'author': 'Taras Zagr',
         'title': 'Spring',
-        'text': 'About quadro'
+        'text': 'About quadro',
     },
     {
         'id': 2,
+        'views_count': 0,
         'author': 'Juan Carlos',
         'title': 'Winner',
         'text': 'This is a development server. Do not use it in a production deployment. Use a production WSGI server instead'
     }
+
 ]
 
 
@@ -37,6 +40,7 @@ def main_page():
 def get_article(id):
     for article in articles:
         if article['id'] == id:
+            article['views_count']+=1
             return render_template('generic.html', article=article, title='KsuZag')
     abort(404)
 
@@ -49,6 +53,7 @@ def create_article():
         return render_template('create_article.html')
     elif request.method == 'POST':
         articles.append({
+            'views_count': 0,
             'author': request.form['art_author'],
             'title': request.form['art_title'],
             'text': request.form['art_text'],
@@ -65,8 +70,7 @@ def about():
 
 @app.route('/elements')
 def elements():
-    return  render_template('elements.html', title='KsuZag')
-
+    return render_template('elements.html', title='KsuZag')
 
 
 # @app.route('/create/user')
