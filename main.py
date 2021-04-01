@@ -17,9 +17,20 @@ articles = [
 ]
 
 
+# users = [
+#     {
+#         'name': '',
+#         'email': '',
+#         'telephone': '',
+#         'password': '',
+#         'repit_password': '',
+#         'avatar': ''
+#
+#     }]
+
 @app.route('/')
 def main_page():
-    return render_template('index.html', title='KsuZag', articles_1=articles)
+    return render_template('index.html', title='KsuZag', articles=articles)
 
 
 @app.route('/article/<int:id>')
@@ -32,8 +43,6 @@ def get_article(id):
 
 @app.route('/create/article', methods=['GET', 'POST'])
 def create_article():
-
-
     '''GET,POST,PUT,DELETE'''
 
     if request.method == 'GET':
@@ -47,6 +56,21 @@ def create_article():
         return redirect('/')
     else:
         return 'METHOD BAD'
+
+
+# @app.route('/create/user')
+# def create_user():
+#     if request.method == 'GET':
+#         return render_template('create_user.html')
+#     elif request.method == 'POST':
+#         for user in users:
+#             user['name'] = request.form['user_name']
+#             user['email'] = request.form['user_email']
+#             user['telephone'] = request.form['user_tel']
+#             user['password'] = request.form['user_password']
+#             user['repit_password'] = request.form['user_rep_pass']
+#             user['avatar'] = request.form['user_avatar']
+#             return redirect('/')
 
 
 @app.route('/about')
