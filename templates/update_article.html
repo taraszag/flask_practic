@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Update post{% endblock %}
+
+{% block content %}
+
+<!-- One -->
+<section id="One" class="wrapper style3">
+    <div class="inner">
+        <header class="align-center">
+            <form method="post" enctype="multipart/form-data" action="/update/article/{{ article['id'] }}">
+                <input type="hidden" name="_method" value = 'put'>
+                <input name="art_author" value="{{ article['author'] }}" placeholder="Article author" type="text">
+                <input name="art_title" value="{{ article['title'] }}" placeholder="Article title" type="text">
+                <input name="art_text" value="{{ article['text'] }}" placeholder="Article text" type="text">
+                <input type="file" placeholder="Image" name="article_image">
+                <button> Update post</button>
+            </form>
+
+
+        </header>
+    </div>
+</section>
+{% endblock %}

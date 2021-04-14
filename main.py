@@ -4,6 +4,7 @@ import string
 import os
 
 app = Flask(__name__)
+BASE_IMG_PATH = 'static/images/pic01.jpg'
 articles = [
     {
         'id': 1,
@@ -11,13 +12,15 @@ articles = [
         'author': 'Taras Zagr',
         'title': 'Spring',
         'text': 'About quadro',
+        'img': BASE_IMG_PATH
     },
     {
         'id': 2,
         'views_count': 0,
         'author': 'Juan Carlos',
         'title': 'Winner',
-        'text': 'This is a development server. Do not use it in a production deployment. Use a production WSGI server instead'
+        'text': 'This is a development server. Do not use it in a production deployment. Use a production WSGI server instead',
+        'img': BASE_IMG_PATH
     }
 
 ]
@@ -29,7 +32,7 @@ users = [
         'telephone': '',
         'password': '',
         'repit_password': '',
-        'avatar': ''
+        'img': BASE_IMG_PATH
 
     }]
 
@@ -55,12 +58,17 @@ def create_article():
     if request.method == 'GET':
         return render_template('create_article.html', title='KsuZag')
     elif request.method == 'POST':
+        image = request.files['article_image']
+        random_name = ''.join([random.choice(string.digits + string.ascii_letters) for x in range(8)])
+        img_path = f'static/images/{random_name}.jpg'
+        image.save(img_path)
         articles.append({
             'id': len(articles) + 1,
             'views_count': 0,
             'author': request.form['art_author'],
             'title': request.form['art_title'],
             'text': request.form['art_text'],
+            'img': img_path
         })
         return redirect('/')
     else:
@@ -73,16 +81,16 @@ def update_article(id):
         for article in articles:
             if article['id'] == id:
                 return render_template('update_article.html', article=article)
-            abort(404)
+        abort(404)
     elif request.method == 'POST':
         image = request.files['article_image']
         for article in articles:
             if article['id'] == id:
-                article['title'] = request.form['article_title']
-                article['author'] = request.form['article_author']
-                article['text'] = request.form['article_text']
+                article['title'] = request.form['art_title']
+                article['author'] = request.form['art_author']
+                article['text'] = request.form['art_text']
                 if image.filename:
-                    random_name = ''.join([random.choice(string.digits + string.ascii_letters) for x in range(10)])
+                    random_name = ''.join([random.choice(string.digits + string.ascii_letters) for x in range(8)])
                     img_path = f'static/images/{random_name}.jpg'
                     image.save(img_path)
                 else:
