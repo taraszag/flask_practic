@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Update user{%endblock%}
+
+{% block content %}
+<section id="One" class="wrapper style3">
+    <div class="inner">
+        <header class="align-center">
+            <h1>Update user</h1>
+
+            <form method="post" enctype="multipart/form-data" action="/update/user/{{ user['id'] }}">
+                <div class="input-container">
+                    <input name='user_name' value="{{ user['name'] }}" placeholder="User name" type="text">
+                </div>
+                <div class="input-container">
+                    <input name="user_email" value="{{user['email']}}" placeholder="Email" type="email">
+                </div>
+                <div class="input-container">
+                    <input name="user_tel" value="{{user['telephone']}}" placeholder="Telephone" type="text">
+                </div>
+                <div class="input-container">
+                    <input name="user_password" value="{{user['password']}}" placeholder="Password" type="password">
+                </div>
+                <div class="input-container">
+                    <input name="user_rep_pass" value="{{user['repit_password']}}" placeholder="Confirm Password"
+                           type="password">
+                </div>
+                <div class="input-container">
+                    <label for="avatar">Аватарка</label>
+                    <input type="file" id="avatar" name="user_avatar">
+                </div>
+                <button type="submit">Update user</button>
+            </form>
+        </header>
+    </div>
+</section>
+{% endblock %}

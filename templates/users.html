@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Users{%endblock%}
+
+{% block content %}
+{% for user in users %}
+<section id="One" class="wrapper style3">
+    <div class="inner">
+        <header class="align-center">
+           <div class="user-block">
+                <img style="width:128px;height:128px;" src="/{{ user['avatar'] }}" alt="">
+                <p>{{ user['name'] }}</p>
+                <p>{{ user['email'] }}</p>
+                <p>{{ user['telephone'] }}</p>
+                <a href="/user/{{ user['id'] }}">View user </a>
+            </div>
+        </header>
+    </div>
+</section>
+
+{% endfor%}
+
+{% endblock%}

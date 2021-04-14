@@ -25,16 +25,7 @@ articles = [
 
 ]
 
-users = [
-    {
-        'name': '',
-        'email': '',
-        'telephone': '',
-        'password': '',
-        'repit_password': '',
-        'img': BASE_IMG_PATH
-
-    }]
+users = []
 
 
 @app.route('/')
@@ -51,7 +42,7 @@ def get_article(id):
     abort(404)
 
 
-@app.route('/create/article', methods=['GET', 'POST'],)
+@app.route('/create/article', methods=['GET', 'POST'])
 def create_article():
     '''GET,POST,PUT,DELETE'''
 
@@ -63,6 +54,7 @@ def create_article():
         img_path = f'static/images/{random_name}.jpg'
         image.save(img_path)
         articles.append({
+
             'id': len(articles) + 1,
             'views_count': 0,
             'author': request.form['art_author'],
@@ -94,7 +86,7 @@ def update_article(id):
                     img_path = f'static/images/{random_name}.jpg'
                     image.save(img_path)
                 else:
-                    img_path = BASE_IMG_PATH
+                    img_path = 'static/images/def_avatar.jpg'
                 if article['img'] != BASE_IMG_PATH:
                     os.remove(article['img'])
 
@@ -112,20 +104,83 @@ def about():
     return render_template('about.html', title='KsuZag')
 
 
-@app.route('/create/user')
+@app.route('/create/user', methods=['GET', 'POST'])
 def create_user():
     if request.method == 'GET':
         return render_template('create_user.html')
     elif request.method == 'POST':
+        image = request.files['user_avatar']
+        random_name = ''.join([random.choice(string.digits + string.ascii_letters) for x in range(10)])
+        img_path = f'static/images/{random_name}.jpg'
+        image.save(img_path)
         for user in users:
             user['name'] = request.form['user_name']
-            user['email'] = request.form['user_email']
+            if request.form['user_email'].find('@'):
+                user['email'] = request.form['user_email']
+            else:
+                abort(401)
             user['telephone'] = request.form['user_tel']
             user['password'] = request.form['user_password']
-            user['repit_password'] = request.form['user_rep_pass']
-            user['avatar'] = request.form['user_avatar']
-            return redirect('/')
+            if request.form['user_password'] == request.form['user_rep_pass']:
+                user['repit_password'] = request.form['user_rep_pass']
+            else:
+                abort(401)
+
+        users.append({
+            'id': len(users) + 1,
+            'name': request.form['user_name'],
+            'email': request.form['user_email'],
+            'telephone': request.form['user_tel'],
+            'password': request.form['user_password'],
+            'repit_password': request.form['user_rep_pass'],
+            'avatar': img_path
+        })
+        print(users)
+        return redirect('/')
+
+    else:
+        return 'Method bad'
 
 
+@app.route('/users', methods=['GET'])
+def get_users():
+    return render_template('users.html', users=users)
+
+
+@app.route('/user/<int:id>', methods=['GET'])
+def get_user(id):
+    for user in users:
+        if user['id'] == id:
+            return render_template('user.html', user=user)
+    abort(404)
+
+
+@app.route('/update/user/<int:id>', methods=['GET', 'POST'])
+def update_user(id):
+    if request.method == 'GET':
+        for user in users:
+            if user['id'] == id:
+                return render_template('update_user.html', user=user)
+        abort(404)
+    elif request.method == 'POST':
+        image = request.files['user_avatar']
+        for user in users:
+            if user['id'] == id:
+                user['name'] = request.form['user_name']
+                user['email'] = request.form['user_email']
+                user['telephone'] = request.form['user_tel']
+                user['password'] = request.form['user_password']
+                user['repit_password'] = request.form['user_rep_pass']
+                if image.filename:
+                    random_name = ''.join([random.choice(string.digits + string.ascii_letters) for x in range(8)])
+                    img_path = f'static/images/{random_name}.jpg'
+                    image.save(img_path)
+                else:
+                    img_path = 'static/images/def_avatar.jpg'
+                if user['avatar'] != BASE_IMG_PATH:
+                    os.remove(user['avatar'])
+
+                user['avatar'] = img_path
+                return redirect(f'/user/{user["id"]}')
 if __name__ == '__main__':
     app.run(host='localhost', port=5000)
